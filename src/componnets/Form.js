@@ -1,18 +1,21 @@
-import React, { useEffect } from "react";
+import React from "react";
+import useInput from '../hooks/useInput';
 
 export default props => {
-  useEffect(() => {
-    return () => {
-      console.log("willUnmount terpanggil");
-    };
-  }, []);
+  const { value: name, reset, onChange: onNameChange } = useInput('')
+
+  const onSubmit = e => {
+    e.preventDefault();
+    props.addTodo(name);
+    reset()
+  };
 
   return (
-    <form onSubmit={props.onSubmit}>
+    <form onSubmit={onSubmit}>
       <input
         type="text"
-        value={props.name}
-        onChange={e => props.onNameChange(e)}
+        value={name}
+        onChange={onNameChange}
       />
       <button type="submit">Submit</button>
     </form>

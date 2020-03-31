@@ -1,5 +1,14 @@
 .App {
-  text-align: center;
+  text-align: left;
+  margin: 1.5em;
+}
+
+form {
+  margin-bottom: 1em;
+}
+
+input {
+  border: 1px solid black;
 }
 
 .App-logo {

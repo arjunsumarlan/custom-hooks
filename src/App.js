@@ -1,24 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import List from "./componnets/List";
+import Form from "./componnets/Form";
 
 function App() {
+  const [todos, setTodos] = useState([
+    { id: 1, name: "belajar functional componnet" }
+  ]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [name, setName] = useState("");
+  const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    console.log("did update terpanggil");
+  }, [todos]);
+
+  const onSubmit = e => {
+    e.preventDefault();
+    setTodos(todos.concat({ id: todos.length + 1, name }));
+    setName("");
+  };
+
+  const onNameChange2 = e => {
+    setName(e.target.value);
+  };
+
+  if (isLoading) {
+    return <p>Loading ...</p>;
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={() => setShowForm(!showForm)}>Toggle form</button>
+      {showForm && (
+        <Form
+          name={name}
+          onNameChange={e => onNameChange2(e)}
+          onSubmit={onSubmit}
+        />
+      )}
+      <List todos={todos} />
     </div>
   );
 }
